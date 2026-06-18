@@ -1586,7 +1586,7 @@ void AArch64InstPrinter::printPSBHintOp(const MCInst *MI, unsigned OpNum,
                                         const MCSubtargetInfo &STI,
                                         raw_ostream &O) {
   printNamedHintOp(MI->getOperand(OpNum).getImm(), O,
-                   AArch64PSBHint::lookupPSBByEncoding, decodeIdentityHint);
+                   AArch64PSBHint::lookupPSBHintByEncoding, decodePSBHint);
 }
 
 void AArch64InstPrinter::printBTIHintOp(const MCInst *MI, unsigned OpNum,

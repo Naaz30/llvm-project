@@ -1995,9 +1995,10 @@ def psbhint_op : Operand<i32> {
   let MCOperandPredicate = [{
     // Check, if operand is valid, to fix exhaustive aliasing in disassembly.
     // "psb" is an alias to "hint" only for certain values of CRm:Op2 fields.
-    if (!MCOp.isImm())
+    if (!MCOp.isImm() || MCOp.getImm() < 16)
       return false;
-    return AArch64PSBHint::lookupPSBByEncoding(MCOp.getImm()) != nullptr;
+    return AArch64PSBHint::lookupPSBHintByEncoding(MCOp.getImm() - 16) !=
+           nullptr;
   }];
   let OperandType = "OPERAND_IMMEDIATE";
 }

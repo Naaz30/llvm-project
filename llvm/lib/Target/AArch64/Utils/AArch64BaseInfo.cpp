@@ -111,11 +111,11 @@ namespace llvm {
 }
 
 namespace llvm {
-  namespace AArch64PSBHint {
-#define GET_PSBsList_IMPL
+namespace AArch64PSBHint {
+#define GET_PSBHINT_IMPL
 #include "AArch64GenSystemOperands.inc"
-  }
-}
+} // namespace AArch64PSBHint
+} // namespace llvm
 
 namespace llvm {
 namespace AArch64PHint {

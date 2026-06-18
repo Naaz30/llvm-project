@@ -732,35 +732,19 @@ def : SVCR<"SVCRSMZA", 0b011>;
 }
 
 //===----------------------------------------------------------------------===//
-// PSB instruction options.
+// PSB (Profiling synchronization barrier) HINT instruction options.
 //===----------------------------------------------------------------------===//
 
-class PSB<string name, bits<5> encoding> {
+class PSBHint<string name, bits<4> encoding> : SearchableTable {
+  let SearchableFields = ["Name", "Encoding"];
+  let EnumValueField = "Encoding";
+
   string Name = name;
-  bits<5> Encoding;
+  bits<4> Encoding;
   let Encoding = encoding;
 }
 
-def PSBValues : GenericEnum {
-  let FilterClass = "PSB";
-  let NameField = "Name";
-  let ValueField = "Encoding";
-}
-
-def PSBsList : GenericTable {
-  let FilterClass = "PSB";
-  let Fields = ["Name", "Encoding"];
-
-  let PrimaryKey = ["Encoding"];
-  let PrimaryKeyName = "lookupPSBByEncoding";
-}
-
-def lookupPSBByName : SearchIndex {
-  let Table = PSBsList;
-  let Key = ["Name"];
-}
-
-def : PSB<"csync", 0x11>;
+def : PSBHint<"csync", 1>;
 
 //===----------------------------------------------------------------------===//
 // BTI instruction options.

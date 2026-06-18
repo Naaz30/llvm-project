@@ -692,13 +692,12 @@ namespace AArch64PState {
 }
 
 namespace AArch64PSBHint {
-  struct PSB : SysAlias {
-    using SysAlias::SysAlias;
-  };
-#define GET_PSBValues_DECL
-#define GET_PSBsList_DECL
+struct PSBHint : SysAlias {
+  using SysAlias::SysAlias;
+};
+#define GET_PSBHINT_DECL
 #include "AArch64GenSystemOperands.inc"
-}
+} // namespace AArch64PSBHint
 
 namespace AArch64PHint {
 struct PHint : SysAlias {

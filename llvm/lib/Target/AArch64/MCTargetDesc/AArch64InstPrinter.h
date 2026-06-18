@@ -174,6 +174,7 @@ protected:
 
   static unsigned decodeIdentityHint(unsigned Value) { return Value; }
   static unsigned decodeBTIHint(unsigned Value) { return Value ^ 32; }
+  static unsigned decodePSBHint(unsigned Value) { return Value - 16; }
   static unsigned decodePHint(unsigned Value) { return Value - 48; }
   static unsigned decodeSHUHint(unsigned Value) { return Value - 50; }
   static unsigned decodeTSBHint(unsigned Value) { return Value ^ 16; }

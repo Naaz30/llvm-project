@@ -2601,6 +2601,18 @@ public:
     unsigned operator()(unsigned Val) const { return Val + 48; }
   };
 
+  struct PSBHintEncoding {
+    unsigned operator()(unsigned Val) const { return Val + 16; }
+  };
+
+  struct SHUHintEncoding {
+    unsigned operator()(unsigned Val) const { return Val + 50; }
+  };
+
+  struct TSBHintEncoding {
+    unsigned operator()(unsigned Val) const { return Val | 16; }
+  };
+
   template <KindTy Kind, NamedHintOp AArch64Operand::*Member,
             typename Encode = IdentityHintEncoding>
   static std::unique_ptr<AArch64Operand>
@@ -2648,8 +2660,8 @@ public:
                                                        StringRef Str,
                                                        SMLoc S,
                                                        MCContext &Ctx) {
-    return CreateNamedHintOperand<k_PSBHint, &AArch64Operand::PSBHint>(Val, Str,
-                                                                       S, Ctx);
+    return CreateNamedHintOperand<k_PSBHint, &AArch64Operand::PSBHint>(
+        Val, Str, S, Ctx, PSBHintEncoding{});
   }
 
   static std::unique_ptr<AArch64Operand> CreateBTIHint(unsigned Val,
@@ -2663,13 +2675,13 @@ public:
   static std::unique_ptr<AArch64Operand>
   CreateSHUHint(unsigned Val, StringRef Str, SMLoc S, MCContext &Ctx) {
     return CreateNamedHintOperand<k_SHUHint, &AArch64Operand::SHUHint>(
-        Val, Str, S, Ctx, [](unsigned EncodedVal) { return EncodedVal + 50; });
+        Val, Str, S, Ctx, SHUHintEncoding{});
   }
 
   static std::unique_ptr<AArch64Operand>
   CreateTSBHint(unsigned Val, StringRef Str, SMLoc S, MCContext &Ctx) {
     return CreateNamedHintOperand<k_TSBHint, &AArch64Operand::TSBHint>(
-        Val, Str, S, Ctx, [](unsigned EncodedVal) { return EncodedVal | 16; });
+        Val, Str, S, Ctx, TSBHintEncoding{});
   }
 
   static std::unique_ptr<AArch64Operand>
@@ -3365,7 +3377,7 @@ ParseStatus AArch64AsmParser::tryParsePrefetch(OperandVector &Operands) {
 
 /// tryParsePSBHint - Try to parse a PSB operand, mapped to Hint command
 ParseStatus AArch64AsmParser::tryParsePSBHint(OperandVector &Operands) {
-  return tryParseNamedHintOperand(Operands, AArch64PSBHint::lookupPSBByName,
+  return tryParseNamedHintOperand(Operands, AArch64PSBHint::lookupPSBHintByName,
                                   AArch64Operand::CreatePSBHint);
 }
 
